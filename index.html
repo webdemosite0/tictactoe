@@ -3,20 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe</title>
+    <title>✨ Ultimate Tic Tac Toe ✨</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f9; margin-top: 50px; }
-        h1 { color: #333; }
-        .board { display: grid; grid-template-columns: repeat(3, 100px); grid-gap: 5px; justify-content: center; margin: 20px auto; }
-        .cell { width: 100px; height: 100px; background: white; font-size: 2.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid #ccc; border-radius: 8px; user-select: none; }
-        .cell:hover { background: #e0e0e0; }
-        #status { font-size: 1.2rem; margin: 15px; color: #555; }
-        button { padding: 10px 20px; font-size: 1rem; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        button:hover { background: #0056b3; }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            color: #ff6b6b;
+            font-weight: 800;
+            font-size: 2.8rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #status {
+            font-size: 1.3rem;
+            margin: 15px 0 25px 0;
+            color: #2d3748;
+            font-weight: 600;
+            background: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 110px);
+            grid-gap: 12px;
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .cell {
+            width: 110px;
+            height: 110px;
+            background: #f7fafc;
+            font-size: 3rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            user-select: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .cell:hover {
+            background: #ebf8ff;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        }
+
+        .cell.x {
+            color: #ff6b6b;
+        }
+
+        .cell.o {
+            color: #48bb78;
+        }
+
+        button.restart {
+            margin-top: 30px;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        button.restart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
     </style>
 </head>
 <body>
-    <h1>Tic Tac Toe</h1>
+    <h1>✨ Tic Tac Toe ✨</h1>
     <div id="status">Player X's turn</div>
     <div class="board" id="board">
         <div class="cell" onclick="makeMove(0)"></div>
@@ -29,7 +113,7 @@
         <div class="cell" onclick="makeMove(7)"></div>
         <div class="cell" onclick="makeMove(8)"></div>
     </div>
-    <button onclick="resetGame()">Restart Game</button>
+    <button class="restart" onclick="resetGame()">Play Again</button>
 
     <script>
         let board = ['', '', '', '', '', '', '', '', ''];
@@ -44,7 +128,9 @@
         function makeMove(index) {
             if (board[index] !== '' || !isGameActive) return;
             board[index] = currentPlayer;
-            document.getElementsByClassName('cell')[index].innerText = currentPlayer;
+            const cell = document.getElementsByClassName('cell')[index];
+            cell.innerText = currentPlayer;
+            cell.classList.add(currentPlayer.toLowerCase());
             checkResult();
         }
 
@@ -59,12 +145,12 @@
                 }
             }
             if (roundWon) {
-                document.getElementById('status').innerText = `Player ${currentPlayer} Wins!`;
+                document.getElementById('status').innerText = `🎉 Player ${currentPlayer} Wins! 🎉`;
                 isGameActive = false;
                 return;
             }
             if (!board.includes('')) {
-                document.getElementById('status').innerText = "It's a Draw!";
+                document.getElementById('status').innerText = `🤝 It's a Draw!`;
                 isGameActive = false;
                 return;
             }
@@ -80,6 +166,7 @@
             let cells = document.getElementsByClassName('cell');
             for (let i = 0; i < cells.length; i++) {
                 cells[i].innerText = '';
+                cells[i].classList.remove('x', 'o');
             }
         }
     </script>
